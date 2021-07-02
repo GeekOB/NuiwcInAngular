@@ -1,0 +1,102 @@
+<!doctype html>
+<html class="nui" lang="en">
+<head>
+  <script>
+    // @TODO: Remove this after user agent stylesheet bug is fixed
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=946975
+    delete Document.prototype.adoptedStyleSheets;
+    var exports = {}; //hack for error
+  </script>
+  <meta charset="utf-8">
+  <title>AngularNuiwcTest</title>
+
+  <base href="/">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    @font-face {
+      font-family: cloud-ui-icons;
+
+      src: url(https://cdn.solarwinds.cloud/cloud-ui/assets/cloud-ui-icons-cc46ac9594830bb3c53ee42bfa38ee55.woff2)
+      format("woff2"),
+      url(https://cdn.solarwinds.cloud/cloud-ui/assets/cloud-ui-icons-4b621400629e1d8dd2bbcfab4baa0f09.ttf)
+      format("truetype"),
+      url(https://cdn.solarwinds.cloud/cloud-ui/assets/cloud-ui-icons-1d351c2826292f2b668486ce81c39223.woff)
+      format("woff"),
+      url(https://cdn.solarwinds.cloud/cloud-ui/assets/cloud-ui-icons-ca37d5208b36c0158947db0d1bee5bb7.svg#cloud-ui-icons)
+      format("svg");
+      font-weight: 400;
+      font-style: normal;
+      font-display: block;
+    }
+
+    p {
+      border: solid 1px blue;
+      padding: 8px;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      --nui-color-bg-platformbar: #333;
+    }
+  </style>
+</head>
+<body>
+<nuiwc-main-layout>
+  <nuiwc-top-app-bar-builder
+    slot="topBar"
+    id="topAppBarBuilder"
+    heading="User-defined heading"
+  >
+    <nuiwc-icon-button
+      id="checkOutline"
+      icon="check-outline"
+      slot="actionItems"
+    ></nuiwc-icon-button>
+    <nuiwc-icon-button
+      id="link"
+      icon="link"
+      slot="actionItems"
+    ></nuiwc-icon-button>
+    <nuiwc-list-item slot="userAvatar-menu" id="transcludedMenuItem">
+      Transcluded menu item
+    </nuiwc-list-item>
+  </nuiwc-top-app-bar-builder>
+
+  <nuiwc-left-nav-builder
+    slot="leftNav"
+    id="leftNavBuilder"
+  ></nuiwc-left-nav-builder>
+
+  <script>
+    const transclusionMessage =
+      'This is not a data-driven "nuiwc-top-app-bar-item", but a regular "nuiwc-icon-button" added via translusion with "actionItems" slot.' +
+      '\nThat\'s why it does not dispatch "nuiwc-top-app-bar-click" event.';
+    checkOutline.addEventListener("click", ev => {
+      console.log(ev);
+      alert(transclusionMessage);
+    });
+    link.addEventListener("click", ev => {
+      console.log(ev);
+      alert(transclusionMessage);
+    });
+    transcludedMenuItem.addEventListener("click", ev => {
+      console.log(ev);
+      alert(
+        'This is not a data-driven "nuiwc-menu-item", but a regular "nuiwc-list-item" added via translusion with "userAvatar-menu" slot.' +
+        '\nThat\'s why it does not dispatch "nuiwc-activate-url" nor "nuiwc-menu-select" event.'
+      );
+    });
+  </script>
+
+  <div slot="body">
+    <app-root></app-root>
+  </div>
+
+</nuiwc-main-layout>
+
+</body>
+</html>
